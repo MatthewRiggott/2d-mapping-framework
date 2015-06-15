@@ -75,7 +75,7 @@ end
 
 class TextInputWindow < Gosu::Window
   def initialize
-    super(300, 200, false)
+    super(1200, 800, false)
     self.caption = "Text Input Example"
     font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @text_fields = Array.new(3) { |index| TextField.new(self, font, 50, 30 + index * 50) }

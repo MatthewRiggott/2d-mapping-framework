@@ -14,7 +14,6 @@ class Game < Gosu::Window
 
 
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
-
     # map will in turn be used as a key (vals = color/can be r,g,b 256 or hex) to tell gosu what 'tiles'
     # and 'objects|enemies' are rendered where.  for this case we will use only the red value.
     # the g/b values are different but only serve to help distinguish different
@@ -23,8 +22,8 @@ class Game < Gosu::Window
     # goomba - 2
     @row = 10
     @col = 20
-    @map = Array.new(@row) { |i| Array.new(@col) { |j| 0 } }
-    image = ChunkyPNG::Image.from_file('test-map.png')
+    @map = Array.new(@row) { |i| Array.new(@col) { |j| 255 } }
+    image = ChunkyPNG::Image.from_file('map2.png')
 
     @images = Array.new
     (0..image.dimension.height-1).each do |y|
@@ -33,12 +32,12 @@ class Game < Gosu::Window
         @map[y][x] = key
       end
     end
-
     #assign images to corresponding mapped values.
-    @images[0] = Gosu::Image.new(self, 'ground.png')
-    @images[1] = Gosu::Image.new(self, 'mario.png')
-    @images[2] = Gosu::Image.new(self, 'goomba.png')
-    @background = Gosu::Image.new(self, 'testmap.png')
+
+    @images[0] = Gosu::Image.new(self, './models/images/ground.png')
+    @images[1] = Gosu::Image.new(self, './models/images/mario.png')
+    @images[2] = Gosu::Image.new(self, './models/images/goomba.png')
+    @background = Gosu::Image.new(self, './models/images/testmap.png')
   end
 
   def draw_tile(col, row, val)
@@ -47,39 +46,26 @@ class Game < Gosu::Window
   end
 
   def to_px(col, row)
-
     x = col * 64
     y = row * 64
     [x, y]
   end
 
-  def draw
+  def button_down(key)
+    if key == Gosu::KbEscape
+      close
+    end
+  end
 
+  def draw
     @background.draw(0, 0, 0, SCREEN_WIDTH/@background.width, SCREEN_HEIGHT/@background.height)
     (0..@row-1).each do |i|
       (0..@col-1).each do |j|
         draw_tile(i, j, @map[i][j]) unless @map[i][j] == 255
-
       end
     end
-
   end
-
 end
-
 
 game = Game.new
 game.show
-
-
-
-
-
-
-
-
-
-
-
-
-
